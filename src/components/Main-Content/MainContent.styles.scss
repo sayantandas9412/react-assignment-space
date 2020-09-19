@@ -1,0 +1,19 @@
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.paragraph {
+  margin: 40px 0;
+  font-size: 20px;
+}
+
+.button {
+  margin-top: 30px;
+  width: 120px;
+  height: 30px;
+  box-shadow: 0 5px 5px rgba(rgb(0, 0, 0), 0.5);
+}

@@ -1,0 +1,22 @@
+.result-container {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.result-success {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    margin-bottom: 40px;
+  }
+}
+
+.button-startAgain {
+  margin-top: 90px;
+}
