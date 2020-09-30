@@ -264,7 +264,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header selectedPlanets={this.state.selectedPlanets} />
+        <Header
+          selectedPlanets={this.state.selectedPlanets}
+          selectedVehicles={this.state.selectedVehicles}
+        />
         {this.state.showAlert ? (
           <CustomAlert
             handleAlertClick={this.handleAlertClick}
