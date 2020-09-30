@@ -1,37 +1,88 @@
-.selection {
-  display: flex;
-  flex-direction: column;
+.destination-number {
+  color: #d9d5d5f7;
+  margin: 5px 0 22px 0;
 }
 
+.selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 98%;
+
+  .planet-selection {
+    .disabled {
+      display: none;
+    }
+    .selection {
+      background-color: rgba(0, 0, 0, 0.25);
+      outline: none;
+      color: #fff;
+      height: 25px;
+      border-radius: 5px;
+
+      option {
+        font-weight: 600;
+
+        &:disabled {
+          font-weight: 100;
+        }
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: rgba(255, 255, 255, 76%);
+        color: #000000b5;
+      }
+    }
+  }
+}
+// .planet-selection select {
+// }
+.custom-message {
+  margin-top: 20px;
+  font-size: 16px;
+}
 .vehicle-selection {
+  margin-top: 30px;
   height: 80%;
-  margin-top: 50px;
 }
 
 .form-vehicle {
   height: 100%;
-  display: none;
+  // display: none;
+
+  // &:focus,
+  // &:active
+  // &:visited {
+  //   display: flex;
+  // }
+  //   display: flex;
+  // }
 }
 
-.AAA1111 {
-  display: flex;
-  flex-direction: column;
+.selected-planet-vehicle-display {
+  margin-top: 20px;
 }
+// .AAA1111 {
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.BBB2222 {
-  display: flex;
-  flex-direction: column;
-}
+// .BBB2222 {
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.CCC3333 {
-  display: flex;
-  flex-direction: column;
-}
+// .CCC3333 {
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.DDD4444 {
-  display: flex;
-  flex-direction: column;
-}
+// .DDD4444 {
+//   display: flex;
+//   flex-direction: column;
+// }
 // form #AAA1111,
 // form #BBB2222,
 // form #CCC3333,
@@ -42,3 +93,19 @@
 // form #active {
 //   display: block;
 // }
+
+@media only screen and (min-width: 500px) and (max-width: 900px) {
+  .destination-number {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .selection-container {
+    width: 100%;
+
+    &:not(:first-child) {
+      margin-top: 25px;
+    }
+  }
+}

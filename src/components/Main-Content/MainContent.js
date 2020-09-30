@@ -12,6 +12,7 @@ const MainContent = ({
   timeTaken,
   handleFindButton,
   selectedVehicles,
+  handleSubmitButton,
   ...props
 }) => {
   let disabledButton = selectedVehicles.length === 4 ? false : true;
@@ -19,7 +20,7 @@ const MainContent = ({
   return (
     <div className="main-container">
       {loading ? (
-        <div>
+        <div className="loading">
           <h2>Loading...</h2>
         </div>
       ) : (
@@ -34,14 +35,18 @@ const MainContent = ({
             handleSelectChange={handleSelectChange}
             handleVehicleChange={handleVehicleChange}
           />
-          <Time timeTaken={timeTaken} />
-          <button
-            className="button-findFalcone button"
-            onClick={handleFindButton}
-            disabled={disabledButton}
-          >
-            Find Falcone
-          </button>
+
+          <div className="time-container">
+            {" "}
+            <Time timeTaken={timeTaken} />
+            <button
+              className="button-findFalcone button"
+              onClick={handleSubmitButton}
+              disabled={disabledButton}
+            >
+              Find Falcone
+            </button>
+          </div>
         </>
       )}
     </div>

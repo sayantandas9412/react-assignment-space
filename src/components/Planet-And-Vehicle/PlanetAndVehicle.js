@@ -5,13 +5,14 @@ import "./PlanetAndVehicle.styles.scss";
 
 const PlanetAndVehicle = ({ TotalNumberOfDestination, ...props }) => {
   return (
-    <div className="select-container">
+    <div className="planet-vehicle-selection-container">
       {TotalNumberOfDestination.map((destination) => {
         return (
           <PlanetSelection
             {...props}
             key={destination.id}
             id={destination.id}
+            destination={destination.name}
           />
         );
       })}

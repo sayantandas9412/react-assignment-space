@@ -25,7 +25,8 @@ const Result = ({
     <div className="result-container">
       {status === "success" ? (
         <div className="result-success">
-          <h1>Success ! Congratulations on Finding Falcone</h1>
+          <h1>Success !</h1>
+          <h2> Congratulations on Finding Falcone King Shan will be pleased</h2>
           <h3>Time Taken: {timeTaken}</h3>
           <h3>Planet Found: {planetFound}</h3>
         </div>

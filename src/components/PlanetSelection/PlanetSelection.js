@@ -11,17 +11,26 @@ const PlanetSelection = ({
   vehicles,
   id,
   selectedId,
+  destination,
+  handleSelectClick,
+  selectDisabled,
+  customMessage,
+  selectedPlanet,
+  selectedVehicle,
 
   ...props
 }) => {
   return (
-    <div className="selection">
+    <div className="selection-container">
       <div className="planet-selection">
+        <h3 className="destination-number">{destination}</h3>
+
         <select
           defaultValue="default"
           onChange={handleSelectChange}
+          onClick={handleSelectClick}
           id={id}
-          // onClick={(e) => console.log(e.target)}
+          className={`selection ${selectDisabled ? "disabled" : ""}`}
         >
           <option value="default" disabled>
             Select a Planet
@@ -39,17 +48,21 @@ const PlanetSelection = ({
           })}
         </select>
       </div>
+      {id === selectedId ? (
+        <p className="custom-message">{customMessage}</p>
+      ) : null}
 
       {/* <div className={`vehicle-selection ${showVehicles ? "show" : ""}`}> */}
       {id === selectedId ? (
         <div className="vehicle-selection">
-          <form className={`${id} form-vehicle`}>
+          <form className="form-vehicle">
             {vehicles.map((vehicle, index) => {
               return (
                 <VehicleOption
                   vehicle={vehicle}
                   key={index}
                   id={id}
+                  selectedVehicle={selectedVehicle}
                   {...props}
                 />
               );
@@ -57,6 +70,18 @@ const PlanetSelection = ({
           </form>
         </div>
       ) : null}
+      {id === selectedId ? (
+        selectedPlanet && selectedVehicle ? (
+          <p className="selected-planet-vehicle-display">
+            <strong>{selectedVehicle}</strong> selected for planet{" "}
+            <strong>{selectedPlanet}</strong>
+          </p>
+        ) : (
+          ""
+        )
+      ) : (
+        ""
+      )}
     </div>
   );
 };

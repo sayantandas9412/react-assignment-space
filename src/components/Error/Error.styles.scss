@@ -1,0 +1,24 @@
+.error-container {
+  height: 78vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: #fff;
+
+  p {
+    margin: 30px 0;
+    font-size: 18px;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .error-container {
+    h1 {
+      margin: 0 0 30px 40px;
+    }
+  }
+}

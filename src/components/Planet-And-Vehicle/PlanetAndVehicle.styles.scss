@@ -1,8 +1,27 @@
-.select-container {
-  margin: 10px 20px;
+.planet-vehicle-selection-container {
+  margin: 10px 0px;
+  padding: 0 30px;
   height: 35%;
-  width: 65%;
+  width: 98%;
   display: flex;
   justify-content: space-between;
   align-content: center;
+}
+
+@media only screen and (min-width: 500px) and (max-width: 900px) {
+  .planet-vehicle-selection-container {
+    padding: 0 10px;
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .planet-vehicle-selection-container {
+    height: 50%;
+    display: flex;
+    padding: 0 10px;
+    flex-direction: column;
+
+    align-content: center;
+  }
 }

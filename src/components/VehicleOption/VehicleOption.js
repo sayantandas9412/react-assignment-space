@@ -6,7 +6,11 @@ const VehicleOption = ({
   id,
   handleVehicleChange,
   vehicleDisabled,
+  handleInputRadioClick,
+  selectedVehicle,
 }) => {
+  let labelStyles = selectedVehicle === vehicle.name ? "selected" : "";
+
   return (
     <fieldset disabled={vehicleDisabled} className="fieldset-vehicle">
       <input
@@ -15,10 +19,12 @@ const VehicleOption = ({
         name="vehicle"
         value={vehicle.name}
         onChange={handleVehicleChange}
+        onClick={handleInputRadioClick}
         disabled={vehicle.vehicleDisabled}
       />
       <label
-        className={`label-vehicle ${
+        id={id}
+        className={`label-vehicle  ${labelStyles} ${
           vehicle.vehicleDisabled ? "label-disabled" : ""
         }`}
       >

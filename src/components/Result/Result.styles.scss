@@ -1,9 +1,11 @@
 .result-container {
-  height: 70vh;
+  height: 74vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.397);
+  color: #fff;
 }
 
 .result-success {
@@ -15,8 +17,39 @@
   h1 {
     margin-bottom: 40px;
   }
+  h2 {
+    margin-bottom: 40px;
+  }
+  h3 {
+    margin-bottom: 20px;
+  }
 }
 
 .button-startAgain {
   margin-top: 90px;
+}
+
+@media only screen and (max-width: 500px) {
+  .result-failure {
+    h1 {
+      margin: 0 0 10px 30px;
+    }
+  }
+
+  .result-success {
+    h1 {
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin: 0 0 30px 30px;
+    }
+    h3 {
+      margin-bottom: 10px;
+    }
+  }
+}
+@media only screen and (max-width: 500px) {
+  .result-container {
+    height: 77vh;
+  }
 }

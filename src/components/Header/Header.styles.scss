@@ -1,23 +1,68 @@
 .heading-container {
   text-align: center;
-  margin: 40px 0;
+  height: 10vh;
   position: relative;
 
   .heading-primary {
-    margin-bottom: 40px;
-
     h1 {
-      text-shadow: 0 8px 8px rgba(rgb(0, 0, 0), 0.3);
+      // text-shadow: 0 8px 8px rgba(rgb(0, 0, 0), 0.3);
+      color: #fff;
+      margin: 50px 0;
+      font-size: 35px;
+    }
+  }
+
+  .header-navlink {
+    position: absolute;
+    top: 2%;
+    right: 20%;
+    text-decoration: none;
+    color: #eee;
+    padding: 5px 12px;
+    border-radius: 5px;
+    border-bottom: 2px solid #eee;
+    transition: all 0.3s;
+    &:hover {
+      background-color: rgba(255, 68, 0, 0.74);
+      color: rgba(247, 241, 241, 0.938);
     }
   }
   .reset-button {
     position: absolute;
-    top: 0;
+    top: -8px;
     right: 10%;
     margin-top: 10px;
+    background-color: rgba(255, 68, 0, 0.74);
+    color: rgba(247, 241, 241, 0.938);
     width: 80px;
-    height: 20px;
+    height: 28px;
 
-    box-shadow: 0 2px 2px rgba(rgb(0, 0, 0), 0.3);
+    &:hover {
+      background-color: rgba(255, 68, 0, 0.548);
+      color: rgba(247, 241, 241, 0.795);
+    }
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 900px) {
+  .heading-container {
+    .reset-button {
+      right: 5%;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .heading-container {
+    .reset-button {
+      top: 45%;
+      right: 4%;
+    }
+    .header-navlink {
+      top: 58%;
+      right: 40%;
+      background-color: rgba(255, 68, 0, 0.74);
+      color: rgba(247, 241, 241, 0.938);
+    }
   }
 }

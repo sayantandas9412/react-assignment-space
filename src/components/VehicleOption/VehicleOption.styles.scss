@@ -1,15 +1,29 @@
 .fieldset-vehicle {
   border: 0;
+  margin-bottom: 10px;
+  padding: 3px;
 }
 
 .label-vehicle {
   opacity: 1;
+
+  // &:hover {
+  //   // color: orangered;
+  // }
+}
+.selected {
+  color: orangered;
 }
 .label-disabled {
-  opacity: 0.5;
-  text-decoration: line-through;
+  opacity: 0.3;
+  // text-decoration: line-through;
 }
-
 .radio {
   margin-right: 5px;
+}
+
+@media only screen and (min-width: 500px) and (max-width: 700px) {
+  .fieldset-vehicle {
+    font-size: 13px;
+  }
 }
