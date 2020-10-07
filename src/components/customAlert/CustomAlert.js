@@ -1,5 +1,4 @@
 import React from "react";
-
 import "./CustomAlert.styles.scss";
 
 const CustomAlert = ({

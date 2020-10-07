@@ -6,17 +6,12 @@
 
 .label-vehicle {
   opacity: 1;
-
-  // &:hover {
-  //   // color: orangered;
-  // }
 }
 .selected {
   color: orangered;
 }
 .label-disabled {
   opacity: 0.3;
-  // text-decoration: line-through;
 }
 .radio {
   margin-right: 5px;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import { withRouter } from "react-router";
-
 import MainContent from "./components/Main-Content/MainContent";
 import Result from "./components/Result/Result";
 import Header from "./components/Header/Header";
@@ -9,53 +8,56 @@ import Error from "./components/Error/Error";
 import CustomAlert from "./components/customAlert/CustomAlert";
 import Footer from "./components/Footer/Footer";
 import Story from "./components/TheStory/Story";
-
-const INITIAL_STATE = {
-  TotalNumberOfDestination: [
-    { name: "Destination-1", id: "AAA1111", disabled: false },
-    { name: "Destination-2", id: "BBB2222", disabled: false },
-    { name: "Destination-3", id: "CCC3333", disabled: false },
-    { name: "Destination-4", id: "DDD4444", disabled: false },
-  ],
-  loading: true,
-  planets: [],
-  vehicles: [],
-  selectedPlanets: [],
-  selectedPlanet: "",
-  selectedVehicles: [],
-  showVehicles: false,
-  selectedId: "AAA1111",
-  VehicleTimeArrayForSelectedPlanet: [],
-  vehicleDisabled: false,
-  timeTaken: 0,
-  token: "",
-  status: "",
-  planetFound: "",
-  hasError: false,
-  errorMessage: "",
-  showAlert: false,
-  selectDisabled: false,
-  customMessage: "",
-  selectedVehicle: "",
-  selectionComplete: false,
-  showSelections: false,
-};
+import {
+  planetsURL,
+  vehiclesURL,
+  tokenURL,
+  findURL,
+} from "./constants/api-url";
+import { homepage, story, error, result } from "./constants/routes";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = JSON.parse(JSON.stringify(INITIAL_STATE));
+    this.state = {
+      TotalNumberOfDestination: [
+        { name: "Destination-1", id: "AAA1111" },
+        { name: "Destination-2", id: "BBB2222" },
+        { name: "Destination-3", id: "CCC3333" },
+        { name: "Destination-4", id: "DDD4444" },
+      ],
+      loading: true,
+      planets: [],
+      vehicles: [],
+      selectedPlanets: [],
+      selectedPlanet: "",
+      selectedVehicles: [],
+      showVehicles: false,
+      selectedId: "AAA1111",
+      vehicleTimeArrayForSelectedPlanet: [],
+      vehicleDisabled: false,
+      timeTaken: 0,
+      token: "",
+      status: "",
+      planetFound: "",
+      hasError: false,
+      errorMessage: "",
+      showAlert: false,
+      selectDisabled: false,
+      customMessage: "",
+      selectedVehicle: "",
+      selectionComplete: false,
+      showSelections: false,
+    };
   }
 
+  // fetching the planet and vehicle data on componentDidMount along with token initialization
   async componentDidMount() {
-    const planetsURL = "https://findfalcone.herokuapp.com/planets";
-    const vehiclesURL = "https://findfalcone.herokuapp.com/vehicles";
-    const APItoken = "https://findfalcone.herokuapp.com/token";
     const user = {};
     try {
       let planetsResponse = await fetch(planetsURL);
       let vehiclesResponse = await fetch(vehiclesURL);
-      let APItokenResponse = await fetch(APItoken, {
+      let tokenResponse = await fetch(tokenURL, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -63,10 +65,9 @@ class App extends Component {
         },
         body: user,
       });
-      let token = await APItokenResponse.json();
+      let token = await tokenResponse.json();
       let planetsData = await planetsResponse.json();
       let vehiclesData = await vehiclesResponse.json();
-
       let vehiclesDataUpdated = vehiclesData.map((vehicle) => {
         return { ...vehicle, vehicleDisabled: true };
       });
@@ -78,16 +79,19 @@ class App extends Component {
         token: token,
       });
     } catch (error) {
+      //handling error on fetch, and redirecting to error component
       this.setState({ hasError: true, errorMessage: error.message });
       this.props.history.push("/error");
     }
   }
-
+  // on selecting a planet option, the particular selection gets disabled
+  // and the vehicle options are shown
   handleSelectChange = (e) => {
     const { planets, vehicles, TotalNumberOfDestination } = this.state;
-
     e.target.disabled = true;
 
+    //getting the selected Destination, to render the vehicle
+    //options accordingly
     let selected = TotalNumberOfDestination.filter((destination) => {
       return destination.id === e.target.id;
     });
@@ -101,26 +105,29 @@ class App extends Component {
         : planet;
     });
     let updatedVehicles2 = [];
+    //getting the selected planet option name
     const nestedVehiclesCopy2 = JSON.parse(JSON.stringify(vehicles));
     const nestedPlanetsCopy2 = JSON.parse(JSON.stringify(planets));
-
     let selectedPlanet = nestedPlanetsCopy2.filter((planet) => {
       return planet.name === e.target.value;
     });
+
+    //setting the vehicles disabled that cannot travel to the selected planet
     let planetDistance = selectedPlanet[0].distance;
     updatedVehicles2 = nestedVehiclesCopy2.map((vehicle) => {
       return vehicle.max_distance < planetDistance || vehicle.total_no < 1
         ? { ...vehicle, vehicleDisabled: true }
         : { ...vehicle, vehicleDisabled: false };
     });
-
+    //setting to an object the name of the vehicle and the time taken for it
+    //to travel to the selected planet
     const nestedVehiclesCopy3 = JSON.parse(JSON.stringify(vehicles));
     let selectedPlanetVehicleTime = nestedVehiclesCopy3.map(
       ({ name, speed }) => {
         return { name: name, timeTaken: planetDistance / speed };
       }
     );
-
+    //storing the selected planets in an array, which will be sent further on submission
     let selectedPlanets =
       this.state.selectedPlanets.length < 4
         ? [...this.state.selectedPlanets, e.target.value]
@@ -135,15 +142,18 @@ class App extends Component {
         vehicleDisabled: false,
         vehicles: updatedVehicles2,
         selectedId,
-        VehicleTimeArrayForSelectedPlanet: selectedPlanetVehicleTime,
+        vehicleTimeArrayForSelectedPlanet: selectedPlanetVehicleTime,
         selectedVehicle: "",
       },
       () => {
+        //setting the vehicles that are not available for the selected
+        // planet to disabled
         let numberOfVehiclesAvailable = this.state.vehicles.filter(
           (vehicle) => {
             return vehicle.vehicleDisabled !== true;
           }
         );
+        //setting customMessage for custom alert component
         let customMessage = "";
         if (numberOfVehiclesAvailable.length < 1) {
           customMessage = "Oops no vehicles available, reset to continue";
@@ -157,35 +167,37 @@ class App extends Component {
           customMessage = `Only 1 vehicle can go to ${this.state.selectedPlanet}`;
         }
 
-        this.setState({ customMessage: customMessage });
+        this.setState({ customMessage });
       }
     );
   };
 
+  // on selecting one vehicle the other vehicles are disabled and the
+  // quantity of vehicles available is updated
   handleVehicleChange = (e) => {
     let selectedVehicle = e.target.value;
     e.target.disabled = true;
-    const { vehicles, VehicleTimeArrayForSelectedPlanet } = this.state;
-    const VehicleTimeArrayForSelectedPlanetCopy = JSON.parse(
-      JSON.stringify(VehicleTimeArrayForSelectedPlanet)
+    const { vehicles, vehicleTimeArrayForSelectedPlanet } = this.state;
+    const vehicleTimeArrayForSelectedPlanetCopy = JSON.parse(
+      JSON.stringify(vehicleTimeArrayForSelectedPlanet)
     );
 
-    let timeTakenByVehicleArray = VehicleTimeArrayForSelectedPlanet.length
-      ? VehicleTimeArrayForSelectedPlanetCopy.filter((vehicleTime) => {
+    let timeTakenByVehicleArray = vehicleTimeArrayForSelectedPlanet.length
+      ? vehicleTimeArrayForSelectedPlanetCopy.filter((vehicleTime) => {
           return e.target.value === vehicleTime.name;
         })
       : 0;
     let timeTaken = timeTakenByVehicleArray.length
       ? timeTakenByVehicleArray[0].timeTaken
       : 0;
-
+    // updating the vehicle quantity on selecting one vehicle
     const nestedVehiclesCopy = JSON.parse(JSON.stringify(vehicles));
     let updatedVehicles = nestedVehiclesCopy.map((vehicle) => {
       return vehicle.name === e.target.value
         ? { ...vehicle, total_no: vehicle.total_no - 1 }
         : { ...vehicle };
     });
-
+    //storing the selected vehicles in an array, which will be sent further on submission
     let selectedVehicles =
       this.state.selectedVehicles.length < 4
         ? [...this.state.selectedVehicles, e.target.value]
@@ -199,13 +211,21 @@ class App extends Component {
       selectedVehicle: selectedVehicle,
     }));
   };
+  //show an alert with the selected vehicles and selected planets
   handleSubmitButton = () => {
     this.setState({ showSelections: true, showAlert: true });
   };
 
+  //handle the POST request and redirect to Result page
   handleFindButton = async () => {
     const { token, selectedPlanets, selectedVehicles } = this.state;
-    const findURL = "https://findfalcone.herokuapp.com/find";
+
+    //Redirect to Error page if token is not initialized
+    if (!token.token) {
+      this.setState({ hasError: true, showAlert: false });
+      this.props.history.push("/error");
+      return;
+    }
     const postObject = {
       token: token.token,
       planet_names: selectedPlanets,
@@ -234,21 +254,20 @@ class App extends Component {
         this.props.history.push("/result");
       }
     } catch (error) {
-      console.log(error);
+      this.setState({ hasError: true, errorMessage: error.message });
+      this.props.history.push("/error");
     }
   };
 
   handleSelectClick = (e) => {
+    const { selectedPlanets, selectedVehicles } = this.state;
     if (
-      this.state.selectedPlanets.length >= 1 &&
-      this.state.selectedPlanets.length > this.state.selectedVehicles.length
+      selectedPlanets.length >= 1 &&
+      selectedPlanets.length > selectedVehicles.length
     ) {
       this.setState({ showAlert: true, selectDisabled: true });
     }
-    if (
-      this.state.selectedPlanets.length === 4 &&
-      this.state.selectedVehicles.length === 4
-    ) {
+    if (selectedPlanets.length === 4 && selectedVehicles.length === 4) {
       this.setState({
         showAlert: true,
         selectDisabled: true,
@@ -256,23 +275,37 @@ class App extends Component {
       });
     }
   };
-
+  //On clicking the button in alert, the alert is removed
   handleAlertClick = () => {
     this.setState({ showAlert: false, selectDisabled: false });
   };
 
   render() {
+    const {
+      selectedPlanets,
+      selectedVehicles,
+      status,
+      hasError,
+      selectedPlanet,
+      selectionComplete,
+      timeTaken,
+      planetFound,
+      token,
+      errorMessage,
+    } = this.state;
     return (
       <div className="App">
         <Header
-          selectedPlanets={this.state.selectedPlanets}
-          selectedVehicles={this.state.selectedVehicles}
+          selectedPlanets={selectedPlanets}
+          selectedVehicles={selectedVehicles}
+          status={status}
+          hasError={hasError}
         />
         {this.state.showAlert ? (
           <CustomAlert
             handleAlertClick={this.handleAlertClick}
-            selectedPlanet={this.state.selectedPlanet}
-            selectionComplete={this.state.selectionComplete}
+            selectedPlanet={selectedPlanet}
+            selectionComplete={selectionComplete}
             handleFindButton={this.handleFindButton}
             {...this.state}
           />
@@ -281,7 +314,7 @@ class App extends Component {
         <Switch>
           <Route
             exact
-            path="/"
+            path={homepage}
             render={() => (
               <MainContent
                 {...this.state}
@@ -294,21 +327,22 @@ class App extends Component {
           />
 
           <Route
-            path="/result"
+            path={result}
             render={() => (
               <Result
-                status={this.state.status}
-                timeTaken={this.state.timeTaken}
-                planetFound={this.state.planetFound}
+                status={status}
+                timeTaken={timeTaken}
+                planetFound={planetFound}
+                token={token}
               />
             )}
           />
 
-          <Route path="/story" render={() => <Story />} />
+          <Route path={story} render={() => <Story />} />
 
           <Route
-            path="/error"
-            render={() => <Error message={this.state.errorMessage} />}
+            path={error}
+            render={() => <Error message={errorMessage} token={token} />}
           />
         </Switch>
         <Footer />

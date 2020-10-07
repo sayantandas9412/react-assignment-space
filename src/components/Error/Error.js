@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import "./Error.styles.scss";
 
-const Error = ({ message }) => {
+const Error = ({ message, token }) => {
   let history = useHistory();
   function pushPageToHome() {
     history.push("/");
@@ -13,7 +13,7 @@ const Error = ({ message }) => {
   return (
     <div className="error-container">
       <h1>Something went wrong !!!</h1>
-      <p>{message}</p>
+      <p>{token.token || message ? message : "Invalid Token"}</p>
       <button
         onClick={() => {
           pushPageToHome();

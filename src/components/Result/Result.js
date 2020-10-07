@@ -1,22 +1,14 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-// import {  } from "react-router";
 import { withRouter } from "react-router";
 import "./Result.styles.scss";
 
-const Result = ({
-  status,
-  timeTaken,
-  planetFound,
-
-  ...props
-}) => {
+const Result = ({ status, timeTaken, planetFound }) => {
   let history = useHistory();
 
   function reloadComponent() {
     history.go(0);
   }
-
   function pushPageToHome() {
     history.push("/");
   }
@@ -26,7 +18,10 @@ const Result = ({
       {status === "success" ? (
         <div className="result-success">
           <h1>Success !</h1>
-          <h2> Congratulations on Finding Falcone King Shan will be pleased</h2>
+          <h2>
+            {" "}
+            Congratulations on Finding Falcone. King Shan will be pleased
+          </h2>
           <h3>Time Taken: {timeTaken}</h3>
           <h3>Planet Found: {planetFound}</h3>
         </div>

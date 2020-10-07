@@ -1,7 +1,7 @@
 import React from "react";
 import "./PlanetOption.styles.scss";
 
-const PlanetOption = ({ planetName, disabled, ...props }) => {
+const PlanetOption = ({ planetName, disabled }) => {
   return (
     <option
       name={planetName}

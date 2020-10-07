@@ -17,18 +17,16 @@ const PlanetSelection = ({
   customMessage,
   selectedPlanet,
   selectedVehicle,
-
   ...props
 }) => {
   return (
     <div className="selection-container">
-      <div className="planet-selection">
+      <div className="planet-selection" onClick={handleSelectClick}>
         <h3 className="destination-number">{destination}</h3>
-
         <select
           defaultValue="default"
           onChange={handleSelectChange}
-          onClick={handleSelectClick}
+          autoFocus={id === selectedId}
           id={id}
           className={`selection ${selectDisabled ? "disabled" : ""}`}
         >
@@ -52,7 +50,6 @@ const PlanetSelection = ({
         <p className="custom-message">{customMessage}</p>
       ) : null}
 
-      {/* <div className={`vehicle-selection ${showVehicles ? "show" : ""}`}> */}
       {id === selectedId ? (
         <div className="vehicle-selection">
           <form className="form-vehicle">

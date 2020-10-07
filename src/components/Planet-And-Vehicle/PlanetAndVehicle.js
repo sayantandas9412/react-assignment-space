@@ -1,6 +1,5 @@
 import React from "react";
 import PlanetSelection from "../PlanetSelection/PlanetSelection";
-
 import "./PlanetAndVehicle.styles.scss";
 
 const PlanetAndVehicle = ({ TotalNumberOfDestination, ...props }) => {
