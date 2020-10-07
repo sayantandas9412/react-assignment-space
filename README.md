@@ -63,7 +63,9 @@ Enzyme ->
      renders 4 VehicleOption Components 
      the default option on select is disabled 
 
-Cypress -> init-spec.js 
+Cypress ->
+
+         -> init-spec.js 
                         ->focuses on the select on load
                         ->able to select the planets
                    
