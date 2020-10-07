@@ -70,7 +70,7 @@ Cypress -> init-spec.js
         ->app-init-spec.js
                         ->load planets on page load
                         ->load vehicles on page load
-                        displays an error message on failure
+                        ->displays an error message on failure
                      
         ->result-spec.js
                         ->clicking on Find Falcone after all the selections and then the Find button
